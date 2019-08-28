@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha src/*.spec.js"
+    "test": "mocha src/*.spec.js",
+    "test:coverage": "nyc npm run test"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +13,7 @@
   "dependencies": {
     "chai": "^4.2.0",
     "lodash": "^4.17.15",
-    "mocha": "^6.2.0"
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1"
   }
 }
