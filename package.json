@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha src/*.spec.js",
+    "test:watch": "mocha --watch src/*.spec.js",
     "test:coverage": "nyc  --reporter=lcov mocha src/*.spec.js"
   },
   "keywords": [],

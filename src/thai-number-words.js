@@ -8,8 +8,7 @@ const DIGIT_WORDS = [
   'หก',
   'เจ็ด',
   'แปด',
-  'เก้า',
-  'สิบ'
+  'เก้า'
 ];
 const DIGIT_UNIT_WORDS = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'];
 const DIGIT_UNIT_CHUNK = DIGIT_UNIT_WORDS[6];
@@ -65,17 +64,24 @@ function numberWords(number) {
 }
 
 function findDigitWord(number, digit, length) {
-  let numberText = number !== 0 && digit < length ? DIGIT_WORDS[number] : '';
-  if (number === 1) {
-    if (length >= 2 && digit === 0) {
-      numberText = 'เอ็ด';
-    }
-    if (length >= 2 && digit === 1) {
+  let numberText = DIGIT_WORDS[number];
+  switch (true) {
+    case number === 0:
       numberText = '';
-    }
-  }
-  if (number === 2 && digit === 1) {
-    numberText = 'ยี่';
+      break;
+
+    case (number === 1 && length >= 2):
+      if (digit === 0) {
+        numberText = 'เอ็ด';
+      }
+      if (digit === 1) {
+        numberText = '';
+      }
+      break;
+
+    case (number === 2 && digit === 1):
+      numberText = 'ยี่';
+      break;
   }
   return numberText;
 }
