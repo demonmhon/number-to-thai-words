@@ -1,8 +1,9 @@
 {
-  "name": "thai-number-words",
+  "name": "number-to-thai-words",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "author": "thanawat.petchsri@gmail.com",
+  "main": "src/index.js",
   "scripts": {
     "test": "mocha src/*.spec.js",
     "test:watch": "mocha --watch src/*.spec.js",

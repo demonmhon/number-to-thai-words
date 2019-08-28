@@ -1,3 +1,3 @@
-const thaiNumberWords = require('./thai-number-words');
+const words = require('./number-to-thai-words');
 
-module.exports = thaiNumberWords;
+module.exports = words;

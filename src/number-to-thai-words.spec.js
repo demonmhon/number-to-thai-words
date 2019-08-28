@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const words = require('./thai-number-words');
+const words = require('./number-to-thai-words');
 
 describe('Reading', () => {
   it('should not convert very small amount', () => {
