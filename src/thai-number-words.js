@@ -18,6 +18,19 @@ const CURRENCY_UNIT_WORD = 'บาท';
 const CURRENCY_SUB_UNIT_WORD = 'สตางค์';
 const CURRENT_FULL_UNIT_WORD = 'ถ้วน';
 
+function arrayChunk(arr, chunkSize) {
+  const chunkedArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    const last = chunkedArr[chunkedArr.length - 1];
+    if (!last || last.length === chunkSize) {
+      chunkedArr.push([arr[i]]);
+    } else {
+      last.push(arr[i]);
+    }
+  }
+  return chunkedArr;
+}
+
 function parseToCurrency(number, precision = 2) {
   const numberFloatStr = parseFloat(number)
     .toString()
@@ -36,40 +49,38 @@ function numberWords(number) {
   const validNumber = parseToCurrency(number).toString()
   const numberArr = validNumber.split('.');
 
-  const readInteger = toWords(numberArr[0]);
+  const readInteger = toWords(numberArr[0], CURRENCY_UNIT_WORD);
   const readDecimal =
     numberArr.length === 2 && numberArr[1] !== '00'
-      ? toWords(numberArr[1])
+      ? toWords(numberArr[1], CURRENCY_SUB_UNIT_WORD)
       : '';
 
-  const textOutput = [];
-  if (readInteger.length) {
-    textOutput.push(`${[readInteger, CURRENCY_UNIT_WORD].join('')}`);
-  }
-  if (textOutput.length && !readDecimal.length) {
-    textOutput.push(CURRENT_FULL_UNIT_WORD);
-  }
-  if (readDecimal.length) {
-    textOutput.push(`${[readDecimal, CURRENCY_SUB_UNIT_WORD].join('')}`);
-  }
+  const textOutput = [
+    readInteger,
+    (readInteger.length && !readDecimal.length) ? CURRENT_FULL_UNIT_WORD : '',
+    readDecimal
+  ];
 
   return textOutput.join('');
 }
 
-function arrayChunk(arr, chunkSize) {
-  const chunked_arr = [];
-  for (let i = 0; i < arr.length; i++) {
-    const last = chunked_arr[chunked_arr.length - 1];
-    if (!last || last.length === chunkSize) {
-      chunked_arr.push([arr[i]]);
-    } else {
-      last.push(arr[i]);
+function findDigitWord(number, digit, length) {
+  let numberText = (number !== 0 && digit < length) ? DIGIT_WORDS[number] : '';
+  if (number === 1) {
+    if (length >= 2 && digit === 0) {
+      numberText = 'เอ็ด'
+    }
+    if (length >= 2 && digit === 1) {
+      numberText = ''
     }
   }
-  return chunked_arr;
+  if (number === 2 && digit === 1) {
+    numberText = 'ยี่'
+  }
+  return numberText;
 }
 
-function toWords(number) {
+function toWords(number, unitWord) {
   const strNumberArr = parseFloat(number)
     .toString()
     .split('')
@@ -84,18 +95,7 @@ function toWords(number) {
 
     chunk.forEach((n, digit) => {
       const i = parseInt(n, 10);
-      let numberText = (i !== 0 && digit < dLength) ? DIGIT_WORDS[i] : '';
-      if (i === 1) {
-        if (dLength >= 2 && digit === 0) {
-          numberText = 'เอ็ด'
-        }
-        if (dLength >= 2 && digit === 1) {
-          numberText = ''
-        }
-      }
-      if (i === 2 && digit === 1) {
-        numberText = 'ยี่'
-      }
+      const numberText = findDigitWord(i, digit, dLength);
       const numberDigitText = (i !== 0 && digit < dLength) ? DIGIT_UNIT_WORDS[digit] : '';
       textArr.unshift(`${numberText}${numberDigitText}`);
     });
@@ -103,7 +103,12 @@ function toWords(number) {
     textChunkArr.unshift(textArr.join(''));
   });
 
-  return textChunkArr.join(DIGIT_UNIT_CHUNK);
+  const words = [textChunkArr.join(DIGIT_UNIT_CHUNK)]
+  if (words[0] !== '') {
+    words.push(unitWord);
+  }
+
+  return words.join('');
 }
 
 module.exports = numberWords;
