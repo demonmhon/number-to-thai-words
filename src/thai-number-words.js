@@ -40,13 +40,13 @@ function parseToCurrency(number, precision = 2) {
     numberFloatStr.length == 2
       ? numberFloatStr[1].substring(0, precision)
       : '00';
-  return parseFloat(`${integerUnitStr}.${fractionalUnitStr}`)
-    .toFixed(precision)
+  return parseFloat(`${integerUnitStr}.${fractionalUnitStr}`).toFixed(
+    precision
+  );
 }
 
 function numberWords(number) {
-
-  const validNumber = parseToCurrency(number).toString()
+  const validNumber = parseToCurrency(number).toString();
   const numberArr = validNumber.split('.');
 
   const readInteger = toWords(numberArr[0], CURRENCY_UNIT_WORD);
@@ -57,7 +57,7 @@ function numberWords(number) {
 
   const textOutput = [
     readInteger,
-    (readInteger.length && !readDecimal.length) ? CURRENT_FULL_UNIT_WORD : '',
+    readInteger.length && !readDecimal.length ? CURRENT_FULL_UNIT_WORD : '',
     readDecimal
   ];
 
@@ -65,17 +65,17 @@ function numberWords(number) {
 }
 
 function findDigitWord(number, digit, length) {
-  let numberText = (number !== 0 && digit < length) ? DIGIT_WORDS[number] : '';
+  let numberText = number !== 0 && digit < length ? DIGIT_WORDS[number] : '';
   if (number === 1) {
     if (length >= 2 && digit === 0) {
-      numberText = 'เอ็ด'
+      numberText = 'เอ็ด';
     }
     if (length >= 2 && digit === 1) {
-      numberText = ''
+      numberText = '';
     }
   }
   if (number === 2 && digit === 1) {
-    numberText = 'ยี่'
+    numberText = 'ยี่';
   }
   return numberText;
 }
@@ -96,14 +96,15 @@ function toWords(number, unitWord) {
     chunk.forEach((n, digit) => {
       const i = parseInt(n, 10);
       const numberText = findDigitWord(i, digit, dLength);
-      const numberDigitText = (i !== 0 && digit < dLength) ? DIGIT_UNIT_WORDS[digit] : '';
+      const numberDigitText =
+        i !== 0 && digit < dLength ? DIGIT_UNIT_WORDS[digit] : '';
       textArr.unshift(`${numberText}${numberDigitText}`);
     });
 
     textChunkArr.unshift(textArr.join(''));
   });
 
-  const words = [textChunkArr.join(DIGIT_UNIT_CHUNK)]
+  const words = [textChunkArr.join(DIGIT_UNIT_CHUNK)];
   if (words[0] !== '') {
     words.push(unitWord);
   }
