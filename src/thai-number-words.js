@@ -1,5 +1,3 @@
-const _ = require('lodash');
-
 const DIGIT_WORDS = [
   'ศูนย์',
   'หนึ่ง',
@@ -58,6 +56,19 @@ function numberWords(number) {
   return textOutput.join('');
 }
 
+function arrayChunk(arr, chunkSize) {
+  const chunked_arr = [];
+  for (let i = 0; i < arr.length; i++) {
+    const last = chunked_arr[chunked_arr.length - 1];
+    if (!last || last.length === chunkSize) {
+      chunked_arr.push([arr[i]]);
+    } else {
+      last.push(arr[i]);
+    }
+  }
+  return chunked_arr;
+}
+
 function toWords(number) {
   const strNumberArr = parseFloat(number)
     .toString()
@@ -65,7 +76,7 @@ function toWords(number) {
     .reverse();
 
   const textChunkArr = [];
-  const numberChunk = _.chunk(strNumberArr, DIGIT_CHUNK);
+  const numberChunk = arrayChunk(strNumberArr, DIGIT_CHUNK);
 
   numberChunk.forEach(chunk => {
     const textArr = [];

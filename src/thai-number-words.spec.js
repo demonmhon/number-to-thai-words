@@ -1,8 +1,9 @@
 const { expect } = require('chai')
-const ThaiNumberWords = require('./index');
+const ThaiNumberWords = require('./thai-number-words');
 
 describe('Reading', () => {
   it('should not convert very small amount', () => {
+    expect(ThaiNumberWords(0)).to.equal('');
     expect(ThaiNumberWords(0.0001)).to.equal('');
     expect(ThaiNumberWords(0.001)).to.equal('');
     expect(ThaiNumberWords(0.009)).to.equal('');
