@@ -11,11 +11,11 @@ const DIGIT_WORDS = [
   'เก้า'
 ];
 const DIGIT_UNIT_WORDS = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'];
-const DIGIT_UNIT_CHUNK = DIGIT_UNIT_WORDS[6];
 const DIGIT_CHUNK = 6;
+const DIGIT_UNIT_CHUNK = DIGIT_UNIT_WORDS[DIGIT_CHUNK];
 const CURRENCY_UNIT_WORD = 'บาท';
 const CURRENCY_SUB_UNIT_WORD = 'สตางค์';
-const CURRENT_FULL_UNIT_WORD = 'ถ้วน';
+const CURRENCY_FULL_UNIT_WORD = 'ถ้วน';
 
 function arrayChunk(arr, chunkSize) {
   const chunkedArr = [];
@@ -36,31 +36,35 @@ function parseToCurrency(number, precision = 2) {
     .split('.');
   const integerUnitStr = numberFloatStr[0];
   const fractionalUnitStr =
-    numberFloatStr.length == 2
+    numberFloatStr.length === 2
       ? numberFloatStr[1].substring(0, precision)
       : '00';
-  return parseFloat(`${integerUnitStr}.${fractionalUnitStr}`).toFixed(
-    precision
-  );
+  return parseFloat(`${integerUnitStr}.${fractionalUnitStr}`)
+    .toFixed(precision);
 }
 
 function numberWords(number) {
-  const validNumber = parseToCurrency(number).toString();
-  const numberArr = validNumber.split('.');
+  const parsedNumber = parseToCurrency(number)
+  if (!isNaN(parsedNumber)) {
+    const validNumber = parsedNumber.toString();
+    const numberArr = validNumber.split('.');
 
-  const readInteger = toWords(numberArr[0], CURRENCY_UNIT_WORD);
-  const readDecimal =
-    numberArr.length === 2 && numberArr[1] !== '00'
-      ? toWords(numberArr[1], CURRENCY_SUB_UNIT_WORD)
-      : '';
+    const readInteger = toWords(numberArr[0], CURRENCY_UNIT_WORD);
+    const readDecimal =
+      numberArr.length === 2 && numberArr[1] !== '00'
+        ? toWords(numberArr[1], CURRENCY_SUB_UNIT_WORD)
+        : '';
 
-  const textOutput = [
-    readInteger,
-    readInteger.length && !readDecimal.length ? CURRENT_FULL_UNIT_WORD : '',
-    readDecimal
-  ];
+    const textOutput = [
+      readInteger,
+      readInteger.length && !readDecimal.length ? CURRENCY_FULL_UNIT_WORD : '',
+      readDecimal
+    ];
 
-  return textOutput.join('');
+    return textOutput.join('');
+  }
+
+  return '';
 }
 
 function findDigitWord(number, digit, length) {

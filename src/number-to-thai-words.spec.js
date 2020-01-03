@@ -2,6 +2,14 @@ const { expect } = require('chai');
 const words = require('./number-to-thai-words');
 
 describe('Reading', () => {
+  it('should not convert non-number', () => {
+    expect(words('string')).to.equal('');
+    expect(words(undefined)).to.equal('');
+    expect(words(null)).to.equal('');
+    expect(words(false)).to.equal('');
+    expect(words(() => {})).to.equal('');
+  });
+
   it('should not convert very small amount', () => {
     expect(words(0)).to.equal('');
     expect(words(0.0001)).to.equal('');
@@ -86,15 +94,17 @@ describe('Reading', () => {
   });
 
   it('should convert number to Baht with Satang', () => {
+    expect(words(1.0)).to.equal('หนึ่งบาทถ้วน');
     expect(words(1.5)).to.equal('หนึ่งบาทห้าสิบสตางค์');
     expect(words(1.500)).to.equal('หนึ่งบาทห้าสิบสตางค์');
     expect(words(1.99)).to.equal('หนึ่งบาทเก้าสิบเก้าสตางค์');
     expect(words(2.42)).to.equal('สองบาทสี่สิบสองสตางค์');
+    expect(words(2.00)).to.equal('สองบาทถ้วน');
     expect(words(11.25)).to.equal('สิบเอ็ดบาทยี่สิบห้าสตางค์');
     expect(words(100.5)).to.equal('หนึ่งร้อยบาทห้าสิบสตางค์');
     expect(words(567.01)).to.equal('ห้าร้อยหกสิบเจ็ดบาทหนึ่งสตางค์');
     expect(words(123456789.999)).to.equal(
-    'หนึ่งร้อยยี่สิบสามล้านสี่แสนห้าหมื่นหกพันเจ็ดร้อยแปดสิบเก้าบาทเก้าสิบเก้าสตางค์'
+      'หนึ่งร้อยยี่สิบสามล้านสี่แสนห้าหมื่นหกพันเจ็ดร้อยแปดสิบเก้าบาทเก้าสิบเก้าสตางค์'
     );
   });
 });
