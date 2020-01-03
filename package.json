@@ -2,7 +2,7 @@
   "name": "number-to-thai-words",
   "version": "1.0.0",
   "description": "",
-  "author": "thanawat.petchsri@gmail.com",
+  "author": "",
   "main": "src/index.js",
   "scripts": {
     "test": "mocha src/*.spec.js",
@@ -10,11 +10,10 @@
     "test:coverage": "nyc  --reporter=lcov mocha src/*.spec.js"
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.2.0",
-    "nyc": "^14.1.1"
+    "mocha": "^6.2.2",
+    "nyc": "^15.0.0"
   }
 }
