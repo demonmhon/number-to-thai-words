@@ -1,8 +1,8 @@
 {
   "name": "number-to-thai-words",
   "version": "1.0.0",
-  "description": "",
-  "author": "",
+  "description": "To output the Thai words from number",
+  "author": "thanawat.petchsri@gmail.com",
   "main": "src/index.js",
   "scripts": {
     "test": "mocha src/*.spec.js",
@@ -13,7 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.2.2",
+    "mocha": "^7.1.1",
     "nyc": "^15.0.0"
   }
 }
